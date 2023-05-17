@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -12,11 +13,11 @@ def getNumberRangeColor(val):
 
 
 
-limits = [(0,1000),(1000,10000),(10000,10000),(10000,100000),(100000,3000000)]
+limits = [(0,10000),(10000,100000),(100000,3000000)]
 state = ['Belgium','Bulgaria','Czechia','Denmark','Germany','Estonia','Ireland','Greece','Spain','France','Croatia','Italy','Cyprus','Latvia','Lithuania','Luxembourg','Hungary','Malta','Netherlands','Austria','Poland','Portugal','Romania','Slovenia','Slovakia','Finland','Sweden','Iceland','Norway','Switzerland','United Kingdom']
-colors = ["royalblue","crimson","lightseagreen","orange","lightgrey"]
+colors = ["rgba(44, 255, 45, 0.25)","rgba(255, 234, 0, 0.25)","rgba(255, 29, 30, 0.25)"]
 cities = []
-scale = 2500
+scale = 250
 
 fig = go.Figure()
 
@@ -26,18 +27,18 @@ for i in range(len(state)):
         locationmode = 'country names',
         text = str(df['2011'][state.index(state[i])]),
         marker = dict(
-            size = df['2011'][state.index(state[i])]/scale,
+            size = math.log(df['2011'][state.index(state[i])]/scale, math.e)*5,
             color = colors[getNumberRangeColor(df['2011'][state.index(state[i])])],
             line_color='rgb(40,40,40)',
             line_width=0.5,
             sizemode = 'area'
         ),
-        name = ''))
+        name = state[i]))
 
 
 
 fig.update_layout(
-        title_text = '2014 US city populations<br>(Click legend to toggle traces)',
+        title_text = 'Number of death on work in 2011',
         showlegend = True,
         geo = dict(
             scope = 'europe',
